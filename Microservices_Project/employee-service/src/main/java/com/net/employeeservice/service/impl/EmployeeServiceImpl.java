@@ -5,6 +5,7 @@ import com.net.employeeservice.dto.DepartmentDto;
 import com.net.employeeservice.dto.EmployeeDto;
 import com.net.employeeservice.entity.Employee;
 import com.net.employeeservice.repo.EmployeeRepository;
+import com.net.employeeservice.service.APIClient;
 import com.net.employeeservice.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +16,10 @@ import org.springframework.web.client.RestTemplate;
 public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
+    /*    @Autowired
+        private RestTemplate restTemplate;*/
     @Autowired
-    private RestTemplate restTemplate;
+    private APIClient apiClient;
     @Override
     public EmployeeDto saveEmployee(EmployeeDto employeeDto) {
         Employee employee = new Employee(
@@ -44,9 +47,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Employee employee = employeeRepository.findById(employeeId).get();
 
-        ResponseEntity<DepartmentDto> responseEntity = restTemplate.getForEntity("http://localhost:8080/api/departments/" + employee.getDepartmentCode(), DepartmentDto.class);
-
-        DepartmentDto departmentDto = responseEntity.getBody();
+       /* ResponseEntity<DepartmentDto> responseEntity = restTemplate.getForEntity("http://localhost:8080/api/departments/" + employee.getDepartmentCode(), DepartmentDto.class);*/
+        DepartmentDto responseEntity = apiClient.getDepartment(employee.getDepartmentCode());
 
         EmployeeDto savedEmployeedto = new EmployeeDto(
                 employee.getId(),
@@ -59,7 +61,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         APIResponseDTO apiResponseDTO = new APIResponseDTO();
 
         apiResponseDTO.setEmployeeDto(savedEmployeedto);
-        apiResponseDTO.setDepartmentDto(departmentDto);
+        apiResponseDTO.setDepartmentDto(responseEntity);
 
         return apiResponseDTO;
     }
