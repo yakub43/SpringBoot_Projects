@@ -1,23 +1,30 @@
 package com.net.employeeservice.service.impl;
 
+import com.net.employeeservice.dto.APIResponseDTO;
+import com.net.employeeservice.dto.DepartmentDto;
 import com.net.employeeservice.dto.EmployeeDto;
 import com.net.employeeservice.entity.Employee;
 import com.net.employeeservice.repo.EmployeeRepository;
 import com.net.employeeservice.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
+    @Autowired
+    private RestTemplate restTemplate;
     @Override
     public EmployeeDto saveEmployee(EmployeeDto employeeDto) {
         Employee employee = new Employee(
                 employeeDto.getId(),
                 employeeDto.getFirstName(),
                 employeeDto.getLastName(),
-                employeeDto.getEmail()
+                employeeDto.getEmail(),
+                employeeDto.getDepartmentCode()
         );
 
         Employee savedEmployee = employeeRepository.save(employee);
@@ -26,24 +33,34 @@ public class EmployeeServiceImpl implements EmployeeService {
                 savedEmployee.getId(),
                 savedEmployee.getFirstName(),
                 savedEmployee.getLastName(),
-                savedEmployee.getEmail()
+                savedEmployee.getEmail(),
+                savedEmployee.getDepartmentCode()
         );
 
         return savedEmployeedto;
     }
-
     @Override
-    public EmployeeDto getEmployeeById(Long employeeId) {
+    public APIResponseDTO getEmployeeById(Long employeeId) {
 
         Employee employee = employeeRepository.findById(employeeId).get();
+
+        ResponseEntity<DepartmentDto> responseEntity = restTemplate.getForEntity("http://localhost:8080/api/departments/" + employee.getDepartmentCode(), DepartmentDto.class);
+
+        DepartmentDto departmentDto = responseEntity.getBody();
 
         EmployeeDto savedEmployeedto = new EmployeeDto(
                 employee.getId(),
                 employee.getFirstName(),
                 employee.getLastName(),
-                employee.getEmail()
+                employee.getEmail(),
+                employee.getDepartmentCode()
         );
 
-        return savedEmployeedto;
+        APIResponseDTO apiResponseDTO = new APIResponseDTO();
+
+        apiResponseDTO.setEmployeeDto(savedEmployeedto);
+        apiResponseDTO.setDepartmentDto(departmentDto);
+
+        return apiResponseDTO;
     }
 }
