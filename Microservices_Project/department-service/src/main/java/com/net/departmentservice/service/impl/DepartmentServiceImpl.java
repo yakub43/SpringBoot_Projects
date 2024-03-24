@@ -5,11 +5,13 @@ import com.net.departmentservice.entity.Department;
 import com.net.departmentservice.repo.DepartmentRepository;
 import com.net.departmentservice.service.DepartmentService;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
+@NoArgsConstructor
 public class DepartmentServiceImpl implements DepartmentService {
 
     @Autowired
