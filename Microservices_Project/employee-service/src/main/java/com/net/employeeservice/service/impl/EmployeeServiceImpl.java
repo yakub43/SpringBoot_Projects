@@ -3,6 +3,7 @@ package com.net.employeeservice.service.impl;
 import com.net.employeeservice.dto.APIResponseDTO;
 import com.net.employeeservice.dto.DepartmentDto;
 import com.net.employeeservice.dto.EmployeeDto;
+import com.net.employeeservice.dto.OrganizationDto;
 import com.net.employeeservice.entity.Employee;
 import com.net.employeeservice.mapper.EmployeeMapper;
 import com.net.employeeservice.repo.EmployeeRepository;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 
 @Service
@@ -23,6 +25,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private static final Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
     @Autowired
     private EmployeeRepository employeeRepository;
+    @Autowired
+    private WebClient webClient;
     /*    @Autowired
         private RestTemplate restTemplate;*/
     @Autowired
@@ -60,6 +64,12 @@ public class EmployeeServiceImpl implements EmployeeService {
        /* ResponseEntity<DepartmentDto> responseEntity = restTemplate.getForEntity("http://localhost:8080/api/departments/" + employee.getDepartmentCode(), DepartmentDto.class);*/
         DepartmentDto responseEntity = apiClient.getDepartment(employee.getDepartmentCode());
 
+        OrganizationDto organizationDto = webClient.get()
+                .uri("http://localhost:8080/api/organizations/" + employee.getOrganizationCode())
+                .retrieve()
+                .bodyToMono(OrganizationDto.class)
+                .block();
+
 /*        EmployeeDto savedEmployeedto = new EmployeeDto(
                 employee.getId(),
                 employee.getFirstName(),
@@ -74,7 +84,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         apiResponseDTO.setEmployeeDto(employeeDto);
         apiResponseDTO.setDepartmentDto(responseEntity);
-
+        apiResponseDTO.setOrganizationDto(organizationDto);
         return apiResponseDTO;
     }
     public APIResponseDTO getDefaultDepartment(Long employeeId, Exception exception){
@@ -91,7 +101,8 @@ public class EmployeeServiceImpl implements EmployeeService {
                 employee.getFirstName(),
                 employee.getLastName(),
                 employee.getEmail(),
-                employee.getDepartmentCode()
+                employee.getDepartmentCode(),
+                employee.getOrganizationCode()
         );
 
         APIResponseDTO apiResponseDTO = new APIResponseDTO();
