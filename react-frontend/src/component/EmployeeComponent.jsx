@@ -23,19 +23,25 @@ class EmployeeComponent extends Component {
 
          console.log(this.state.employee)}
          )
-        // EmployeeService.getEmployee().then((res) =>{
-        //     this.setState({employee: res.employee}),
-        //     this.setState({department: res.department}),
-        //     this.setState({organization: res.organization}),
-
-        //     console.log(this.state.employee);
-        // })
     }
 
     render(){
         return(
             <div>
-
+            <div className="container card offsetmd-3" >
+                <h3 className="text-center">View Employee Card</h3>
+                <div className="card-body" >
+                    <div className="row" >
+                        <p><strong>Employee First Name: </strong>{this.state.employee.firstName}</p>
+                    </div>
+                    <div className="row" >
+                        <p><strong>Employee Last Name: </strong>{this.state.employee.lastName}</p>
+                    </div>
+                    <div className="row" >
+                        <p><strong>Employee Email: </strong>{this.state.employee.email}</p>
+                    </div>
+                </div>
+            </div>
             </div>
         )
     }
