@@ -9,9 +9,7 @@ function App() {
 
   return (
     <>
-    <h1>
      <EmployeeComponent></EmployeeComponent>
-    </h1>
     </>
   )
 }
