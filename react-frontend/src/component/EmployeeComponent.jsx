@@ -28,7 +28,7 @@ class EmployeeComponent extends Component {
     render(){
         return(
             <div>
-            <div className="container card offsetmd-3" >
+            <div className="card offset-md-3" >
                 <h3 className="text-center">View Employee Card</h3>
                 <div className="card-body" >
                     <div className="row" >
