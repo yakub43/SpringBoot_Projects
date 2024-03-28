@@ -52,6 +52,19 @@ class EmployeeComponent extends Component {
                 <div className="row" >
                     <p><strong>Department Code: </strong>{this.state.department.departmentCode}</p>
                 </div>
+                <h3 className="text-center card-header" >View Organization Details</h3>
+                <div className="card-body" >
+                <div className="row" >
+                    <p><strong>Organization Name: </strong>{this.state.organization.organizationName}</p>
+                </div>
+                <div className="row" >
+                    <p><strong>Organization Description: </strong>{this.state.organization.organizationDescription}</p>
+                </div>
+                <div className="row" >
+                    <p><strong>Organization Code: </strong>{this.state.organization.organizationCode}</p>
+                </div>
+
+                </div>
                 </div>
             </div>
             </div>
