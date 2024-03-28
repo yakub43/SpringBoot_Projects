@@ -42,6 +42,7 @@ class EmployeeComponent extends Component {
                     </div>
                 </div>
                 <h3 className="text-center card-header" >Vie Department Details</h3>
+               <div className="card-body" >
                 <div className="row" >
                     <p><strong>Department Name: </strong>{this.state.department.departmentName}</p>
                 </div>
@@ -50,6 +51,7 @@ class EmployeeComponent extends Component {
                 </div>
                 <div className="row" >
                     <p><strong>Department Code: </strong>{this.state.department.departmentCode}</p>
+                </div>
                 </div>
             </div>
             </div>
