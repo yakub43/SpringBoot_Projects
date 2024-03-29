@@ -59,7 +59,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public APIResponseDTO getEmployeeById(Long employeeId) {
 
         logger.info("Inside Employee By Id Method");
-        Employee employee = employeeRepository.findById(employeeId).get();
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new RuntimeException("There is no employee Associated with the given Id"));
 
        /* ResponseEntity<DepartmentDto> responseEntity = restTemplate.getForEntity("http://localhost:8080/api/departments/" + employee.getDepartmentCode(), DepartmentDto.class);*/
         DepartmentDto responseEntity = apiClient.getDepartment(employee.getDepartmentCode());
