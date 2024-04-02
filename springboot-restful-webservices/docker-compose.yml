@@ -1,5 +1,5 @@
 version: "3.8"
-
+# Writing properties to run the composite docker container
 services:
   mysqldb:
     container_name: mysqldb
